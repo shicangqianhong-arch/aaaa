@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>詐欺耐性診断ゲーム</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <div class="progress-area">
+      <div class="progress-text" id="progressText">
+        1 / 10
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="card fade" id="card">
+
+      <div class="question-number" id="questionNumber">
+        QUESTION 1
+      </div>
+
+      <div class="question-text" id="questionText">
+        今だけ限定に弱い？
+      </div>
+
+      <div class="button-group">
+        <button class="answer-btn yes-btn" id="yesBtn">
+          はい
+        </button>
+
+        <button class="answer-btn no-btn" id="noBtn">
+          いいえ
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
