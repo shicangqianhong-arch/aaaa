@@ -8,7 +8,7 @@ const questions = [
     typeNo: "careless"
   },
   {
-    text: "猫と犬なら飼うなら猫である。",
+    text: "猫と犬、飼うとしたら猫？",
     riskYes: 1,
     riskNo: 2,
     typeYes: "impulse",
