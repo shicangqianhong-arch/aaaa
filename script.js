@@ -188,26 +188,77 @@ const questions = [
 
 questions.sort(() => Math.random() - 0.5);
 // ====== タイプ別情報 ======
-const typeInfo = {
-  impulse: {
-    name: "勢いで判断するタイプ",
-    message:
-      "急かされる話には要注意！<br>一度立ち止まって確認しましょう。"
+const resultMap = {
+  "impulse-greed": {
+    name: "⚡ 即決チャレンジャー",
+    message: "チャンスを見ると素早く行動するタイプ。『今だけ』『限定』という言葉に注意しましょう。",
+    scam: "投資詐欺・副業詐欺"
   },
-  careless: {
-    name: "警戒心が薄いタイプ",
-    message:
-      "URLやSMSのリンクは<br>本物か確認する習慣をつけましょう。"
+
+  "impulse-kind": {
+    name: "🎢 ワクワク優先タイプ",
+    message: "面白そうな話や人とのつながりを大切にするタイプ。",
+    scam: "SNS詐欺・ロマンス詐欺"
   },
-  kind: {
-    name: "優しすぎるタイプ",
-    message:
-      "困っている人を助けたい気持ちは素敵ですが、<br>詐欺師はその優しさを利用します。"
+
+  "impulse-careless": {
+    name: "🚀 スピード重視タイプ",
+    message: "考えるより先に動くことが多いタイプ。",
+    scam: "フィッシング詐欺・偽サイト詐欺"
   },
-  greed: {
-    name: "うまい話に弱いタイプ",
-    message:
-      "『簡単に儲かる』話は危険！<br>冷静に疑う力を持ちましょう。"
+
+  "kind-careless": {
+    name: "🤝 お人好しサポーター",
+    message: "困っている人を助けたい気持ちが強いタイプ。",
+    scam: "募金詐欺・支援金詐欺"
+  },
+
+  "kind-impulse": {
+    name: "💖 共感マスター",
+    message: "感情移入しやすく、人の話を真剣に聞くタイプ。",
+    scam: "ロマンス詐欺・なりすまし詐欺"
+  },
+
+  "kind-greed": {
+    name: "🌸 面倒見リーダー",
+    message: "周囲を助けるために積極的に動くタイプ。",
+    scam: "代理購入詐欺・送金依頼詐欺"
+  },
+
+  "greed-impulse": {
+    name: "💰 一攫千金チャレンジャー",
+    message: "大きなチャンスを逃したくないタイプ。",
+    scam: "投資詐欺・仮想通貨詐欺"
+  },
+
+  "greed-careless": {
+    name: "🎁 お得ハンター",
+    message: "お得情報に敏感でチャンスを探すタイプ。",
+    scam: "当選詐欺・偽通販サイト"
+  },
+
+  "greed-kind": {
+    name: "📈 チャンス追求型",
+    message: "人とのつながりも重視するタイプ。",
+    scam: "マルチ商法・副業詐欺"
+  },
+
+  "careless-kind": {
+    name: "🔓 信頼しすぎタイプ",
+    message: "人を疑うことが苦手なタイプ。",
+    scam: "なりすまし詐欺・SNS詐欺"
+  },
+
+  "careless-greed": {
+    name: "🌐 情報うのみタイプ",
+    message: "ネット情報を信じやすいタイプ。",
+    scam: "フィッシング詐欺・偽広告詐欺"
+  },
+
+  "careless-impulse": {
+    name: "😌 楽観主義タイプ",
+    message: "『大丈夫だろう』と思いやすいタイプ。",
+    scam: "偽警告詐欺・サポート詐欺"
   }
 };
 
@@ -285,18 +336,32 @@ function showResult() {
     Math.round(totalRisk / questions.reduce((sum,q)=>sum+q.riskYes+q.riskNo,0) * 100)
   );
 
-  // 最も傾向が強いタイプ
-  let highestType = Object.keys(typeScores)[0];
-  for (const type in typeScores) {
-    if (typeScores[type] > typeScores[highestType]) highestType = type;
-  }
-  const result = typeInfo[highestType];
+ const sortedTypes = Object.entries(typeScores)
+  .sort((a, b) => b[1] - a[1]);
+
+const primaryType = sortedTypes[0][0];
+const secondaryType = sortedTypes[1][0];
+
+const resultKey =
+  `${primaryType}-${secondaryType}`;
+
+const result =
+  resultMap[resultKey];
 
   card.innerHTML = `
     <div class="result-title">診断結果</div>
     <div class="result-risk">危険度 ${riskPercent}%</div>
-    <div class="result-type">あなたは<br>「${result.name}」</div>
-    <div class="result-message">${result.message}</div>
+   <div class="result-type">
+  あなたは<br>
+  「${result.name}」
+</div>
+
+<div class="result-message">
+  ${result.message}
+  <br><br>
+  <strong>狙われやすい詐欺</strong><br>
+  ${result.scam}
+</div>
 
     <button class="retry-btn learn-btn"
       onclick="window.open('https://www.police.pref.osaka.lg.jp/seikatsu/tokusyusagi/8083.html','_blank')">
