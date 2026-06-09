@@ -186,6 +186,7 @@ const questions = [
   }
 ];
 
+questions.sort(() => Math.random() - 0.5);
 // ====== タイプ別情報 ======
 const typeInfo = {
   impulse: {
@@ -311,6 +312,9 @@ function restartGame() {
   currentQuestion = 0;
   totalRisk = 0;
   typeScores = { impulse:0, careless:0, kind:0, greed:0 };
+  
+  // 毎回シャッフル
+  questions.sort(() => Math.random() - 0.5);
 
   card.innerHTML = `
     <div class="question-number" id="questionNumber">QUESTION 1</div>
